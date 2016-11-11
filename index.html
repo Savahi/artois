@@ -1,0 +1,327 @@
+<html>
+
+<head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Lovely Artworks. Авторские работы - живопись и hand-made</title>
+
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+
+        <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+		<script src="/jquery/jquery-3.1.0.min.js"></script>
+
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+<style>
+   	body { 
+   		padding-top:50px; 
+   	}
+
+	.my-tile {
+	    z-index: 100;
+	    float:left;
+	    -moz-box-sizing: border-box; 
+	    box-sizing: border-box;
+	    border:1px solid #fafafa;
+	    text-align:center;
+	}
+
+	.my-tile:hover {
+    	border:1px solid #dfdfdf;
+	}
+
+	.my-tile-popover {
+    	position: absolute; display: block; left: 100%; top: 0; z-index: 101;
+	    padding: 5%;
+    	background-color:#ffffff;
+    	border:1px solid #fafafa;
+		text-decoration: none; color: black;
+	}
+
+	.my-tile-popover-title {
+		padding: 5%;
+		border-bottom: 1px solid #dfdfdf;
+		font-size: 110%;
+		font-weight: bold;
+	}
+
+	.my-tile-popover-body {
+		padding:5%;
+		font-size:100%;
+		font-weight:normal;
+	}
+
+
+	@media screen and (max-height: 400px) { 
+		.my-tile {
+			margin:1px; 
+			padding:2px 1px 4px 1px;
+		}
+		.my-tile img {
+			max-height:80px;
+		}
+	}
+
+	@media screen and (min-height: 400px) and (max-height: 600px) { 
+		.my-tile {
+			margin:2px; 
+			padding:4px 2px 8px 2px; 
+		}
+		.my-tile img {
+			max-height:120px;
+		}
+	}
+
+	@media screen and (min-height: 600px) and (max-height: 800px) { 
+		.my-tile {
+			margin:4px; 
+			padding:8px 4px 16px 4px; 
+		}
+		.my-tile img {
+			max-height:160px;
+		}
+	}
+
+	@media screen and (min-height: 800px) and (max-height: 1000px) { 
+		.my-tile {
+			margin:8px;
+			padding:16px 8px 32px 8px;
+		}
+		.my-tile img {
+			max-height:200px;
+		}
+	}
+
+	@media screen and (min-height: 1000px) and (max-height:1200px) { 
+    	.my-tile {
+			margin:12px; 
+      		padding:24px 12px 48px 12px;
+		}
+		.my-tile img {
+			max-height:200px;
+		}
+	}
+
+	@media screen and (min-height: 1200px) { 
+		.my-tile {
+			padding:16px 32px 16px 64px; 
+			margin:12px; 
+		}
+		.my-tile img {
+			max-height:200px;
+		}
+	}
+
+	.my-tile-clearfix:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	#my-zoom-img {
+	    border-radius: 5px;
+	    cursor: pointer;
+	    transition: 0.3s;
+	}
+
+	#my-zoom-img:hover {
+		opacity: 0.9;
+	}
+
+	.my-zoom {
+		display: none; /* Hidden by default */
+		position: fixed; /* Stay in place */
+		z-index: 10000; /* Sit on top */
+		left: 0; top: 0;
+		width: 100%; /* Full width */
+		height: 100%; /* Full height */
+		overflow: auto; /* Enable scroll if needed */
+		padding-top: 100px; /* Location of the box */
+		background-color: rgb(0,0,0); /* Fallback color */
+		background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+	}
+
+	.my-zoom-img-full-size {
+		margin: auto;
+		display: block;
+		width: 80%;
+		max-width: 800px;
+	}
+
+	.my-zoom-img-full-size-v {
+		margin: auto;
+		display: block;
+		height: 80%;
+		max-height: 800px;
+	}
+
+	#my-zoom-caption {
+		margin: auto;
+		display: block;
+		padding: 10px 0;
+		width: 80%;
+		max-width: 800px;
+		height: 150px;
+		text-align: center;
+		color: #ccc;
+	}
+
+/* Add Animation */
+	.my-zoom-img-full-size, .my-zoom-img-full-size-v, #my-zoom-caption {    
+		-webkit-animation-name: zoom;
+		-webkit-animation-duration: 0.6s;
+		animation-name: zoom;
+		animation-duration: 0.6s;
+	}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes zoom {
+    from {transform: scale(0.1)} 
+    to {transform: scale(1)}
+}
+
+/* The Close Button */
+	.my-zoom-close {
+		position: absolute;
+		top: 15px;
+		right: 35px;
+		color: #f1f1f1;
+		font-size: 40px;
+		font-weight: bold;
+		transition: 0.3s;
+	}
+	.my-zoom-close:hover,
+	.my-zoom-close:focus {
+		color: #bbb;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	@media only screen and (max-width: 700px) {
+    	.my-zoom-img-full-size  {
+        	width: 100%;
+		}
+		.my-zoom-img-full-size-v {
+        	height: 100%;
+		}
+	}
+
+</style>
+       
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+   		<div class="navbar-header">
+      		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        		<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">LovelyArtworks</a>
+	    </div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav navbar-right">
+				<li id="my_main"><a href="/">Главная</a></li>
+				<li id="my_artworks"><a href="/artworks/">Галерея</a></li>
+				<li id="my_publications"><a href="/publications/">Публикации</a></li>
+				<li id="my_contacts"><a href="/contacts/">Контакты</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+	<div class="jumbotron">
+		<div class="container text-center">
+			<h1>Авторские работы</h1>
+			<p>живопись и hand-made - сделано в единственном экземпляре</p>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">$("#my_main").addClass( "active" );</script><div ng-app="myApp" ng-controller="myCtrl">
+
+<!--
+	<div class="container-fluid">
+		<h1>Работы</h1>
+		<p>Resize the browser window to see the effect.</p>
+		<div class="row">
+		<div ng-repeat="artwork in artworks">
+		    <div class="col-sm-2">
+	        	<a href='/artworks/{{artwork.id}}'>
+    	        	<img src='/{{artwork.imageFolder}}/{{artwork.image}}' class="img-responsive img-thumbnail">
+				</a>
+		        <div style='font-size:90%;'>
+    		    	<div ng-click="artworkClick(artwork)">{{ artwork.title }}</div>
+				</div>
+		        <div style='font-size:80%;'>
+					Размер: <i>{{ artwork.height }}</i>&nbsp;x&nbsp;<i>{{ artwork.width }}&nbsp;cm</i>.<br>
+					Техника: <i>{{ artwork.technique }}</i>.<br>
+					Год: {{ artwork.year }}.
+				</div>
+			</div>  
+		</div>  
+		</div>
+	</div>
+-->
+	<div ng-repeat="artwork in artworks" class="my-tile" ng-cloak>
+			<a href='/artworks/{{artwork.id}}' ng-mouseover="artwork.showPopover=false" ng-mouseout="artwork.showPopover=false" style="position:relative;">
+				<img src='/{{artwork.imageFolder}}/{{artwork.icon}}' class="img-thumbnail">
+				<div class="my-tile-popover" ng-show="artwork.showPopover">
+					<div class="my-tile-popover-title">
+						{{ artwork.title }}
+					</div>
+					<div class="my-tile-popover-body">
+						<i>{{ artwork.height }}</i>&nbsp;x&nbsp;<i>{{ artwork.width }}&nbsp;cm</i>.<br>
+						<i>{{ artwork.technique }}</i>.<br>
+						<b>{{ artwork.price }}</b>&nbsp;<i>{{ artwork.priceUnit }}</i>.
+					</div>
+				</div>
+			</a>
+		<div style='font-size:100%;'>
+			<div ng-click="artworkClick(artwork)">{{ artwork.title }}</div>
+		</div>
+		<div style='font-size:90%;'>
+			<i>{{ artwork.height }}</i>&nbsp;x&nbsp;<i>{{ artwork.width }}&nbsp;cm</i>, <i>{{ artwork.technique }}</i>.<br>
+			<b>{{ artwork.price }}</b>&nbsp;<i>{{ artwork.priceUnit }}</i>.
+		</div>
+	</div>
+    <div class='my-tile-clearfix'></div>
+    
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myCtrl', function( $scope, $http ) {
+
+			$http.get("http://www.lovely-artworks.ru/cgi-bin/artworks.cgi").success( function (response) { 
+				$scope.artworks = response.records;
+				for( var i = 0 ; i < $scope.artworks.length ; i++ ) { 
+					if( $scope.artworks[i].icon.length > 0 ) {
+						$scope.artworks[i].image = $scope.artworks[i].icon;
+						$scope.artworks[i].showPopover = false;
+					}
+				}
+			});
+		});
+	</script>
+
+</div>
+	<div style='margin:12px 4px 4px 4px; border-top:2px solid #efefef; padding:8px; font-size:100%;'>
+		<em>&copy; Lovely-artworks.ru 2016</em>. Авторские работы - живопись и hand-made.
+	</div>
+
+</body>
+
+</html>
